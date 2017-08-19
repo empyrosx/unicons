@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="windows-1251" ?>
+<project name="styledtext" default="jar" basedir=".">
+
+	<description>Shows how the styled-text feature works in static and dynamic text elements.</description>
+
+	<property name="classes.dir" value="${basedir}/build/classes" />
+	<property name="lib.dir" value="../lib" />
+	<property name="jar.file" value="${lib.dir}/own/description.jar" />
+
+	<target name="init" description="Инициализация">
+		<mkdir dir="${classes.dir}"/>
+	</target>
+
+	
+	<target name="compile" depends="init" description="Компиляция исходного кода">
+		<javac srcdir="./" destdir="${classes.dir}"/>
+	</target>
+
+	<target name="jar" depends="init,compile" description="Сборка jar файла">
+		<jar basedir="${classes.dir}" destfile="${jar.file}"/>
+		<antcall target="clean"/>
+	</target>
+
+	<target name="clean" description="Очистка всех созданных файлов">
+		<delete dir="${basedir}/build"/>
+	</target>
+</project>

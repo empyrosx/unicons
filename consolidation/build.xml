@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="windows-1251" ?>
+<project name="styledtext" default="execute" basedir=".">
+
+	<description>Shows how the styled-text feature works in static and dynamic text elements.</description>
+
+	<property name="classes.dir" value="${basedir}/build/classes" />
+	<property name="lib.dir" value="../lib" />
+	<property name="lib.own.dir" value="${lib.dir}/own" />
+	<property name="jar.file" value="${lib.dir}/own/consolidation.jar" />
+
+	<path id="classpath">
+		<pathelement location="${classes.dir}" /> 
+		<fileset dir="${lib.dir}">
+			<include name="**/*.jar" /> 
+		</fileset>
+		<fileset dir="${lib.own.dir}">
+			<include name="**/*.jar" /> 
+		</fileset>
+	</path>
+
+	<target name="init" description="Инициализация">
+		<mkdir dir="${classes.dir}"/>
+	</target>
+
+	
+	<target name="compile" depends="init" description="Компиляция исходного кода">
+		<javac srcdir="./" destdir="${classes.dir}">
+			<classpath refid="classpath" />
+		</javac>
+	</target>
+
+	<target name="jar" depends="init,compile" description="Сборка jar файла">
+		<jar basedir="${classes.dir}" destfile="${jar.file}"/>
+	</target>
+
+	<target name="clean" description="Очистка всех созданных файлов">
+		<delete dir="${basedir}/build"/>
+	</target>
+
+	<target name="execute" description="Запуск" depends="init,compile,jar">
+		<java classname="consolidation.Main" fork="true">
+			<classpath refid="classpath" />
+		</java>
+	</target>
+</project>
